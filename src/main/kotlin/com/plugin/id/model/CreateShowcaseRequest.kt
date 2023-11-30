@@ -9,5 +9,7 @@ data class CreateShowcaseRequest(
     @field: NotBlank
     val image : String?,
     @field: NotBlank
-    val description : String?
+    val description : String?,
+    @field: NotBlank
+    val idCategory : Int
 )
