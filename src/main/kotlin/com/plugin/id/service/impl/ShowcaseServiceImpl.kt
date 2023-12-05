@@ -1,5 +1,7 @@
 package com.plugin.id.service.impl
 
+import com.cloudinary.utils.ObjectUtils
+import com.plugin.id.config.CloudinaryConfig
 import com.plugin.id.entity.Showcase
 import com.plugin.id.helper.NotFoundException
 import com.plugin.id.model.CreateShowcaseRequest
@@ -20,9 +22,13 @@ class ShowcaseServiceImpl (val showcaseRepository: ShowcaseRepository, val categ
     : ShowcaseService {
     override fun create(createShowcaseRequest: CreateShowcaseRequest): ShowcaseResponse {
         val kategori = categoryRepository.findCategoryByIdCategory(createShowcaseRequest.idCategory)
+        val cloudinary = CloudinaryConfig()
+        val uploadResponse = cloudinary.cloudinaryAccount().uploader()
+            .upload(createShowcaseRequest.image.bytes, ObjectUtils.asMap())
+
         val showcase = Showcase(
             title = createShowcaseRequest.title!!,
-            image = createShowcaseRequest.image!!,
+            image = uploadResponse.get("url").toString(),
             description = createShowcaseRequest.description!!,
             createdAt = Date(),
             updatedAt = Date()

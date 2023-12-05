@@ -9,4 +9,5 @@ data class ShowcaseResponse (
     val description : String,
     val createdAt : Date,
     val updatedAt : Date
+
 )
